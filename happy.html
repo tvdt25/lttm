@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#ff6aa2" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <title>Thiệp 20/10 ✨</title>
+  <title>Thiệp 20/10 gửi đến cô gái bé nhỏ✨</title>
   <style>
     :root{
       --bg:#fff7fb; --pink:#ff6aa2; --pink-2:#ff93bd; --vio:#8a63ff; --text:#3b2b3b; --gold:#ffd166;
@@ -54,6 +54,7 @@
       position:fixed; inset:0; display:grid; place-items:center; padding:16px;
       background:linear-gradient(180deg,#fff7fb,#fff), radial-gradient(1200px 600px at 50% -10%, #ffe4f1 0%, transparent 60%);
       opacity:0; pointer-events:none; transform:translateY(8px) scale(.99); transition:opacity .45s ease, transform .45s ease;
+      z-index:2; /* dưới layer hiệu ứng */
     }
     .app.open .card{ opacity:1; pointer-events:auto; transform:translateY(0) scale(1) }
 
@@ -62,7 +63,6 @@
       box-shadow:0 30px 60px rgba(255,106,162,.18), 0 16px 40px rgba(138,99,255,.12); overflow:hidden;
     }
 
-    /* ribbon */
     .ribbon{
       position:absolute; inset:0 0 auto 0; block-size:62px;
       background:linear-gradient(90deg,var(--gold),#ffd98a 60%,var(--gold));
@@ -72,20 +72,20 @@
     .ribbon small{opacity:.8; font-weight:700}
 
     .paper-body{ padding:88px 22px calc(22px + env(safe-area-inset-bottom)); display:grid; gap:14px }
-    .headline{ font-size:clamp(22px,5.4vw,30px); margin:0 0 6px; color:#2a1b2a }
     .message{ font-size:clamp(16px,4.2vw,18px); line-height:1.65; margin:0; color:#553a55 }
     .sig{ margin-top:8px; display:flex; align-items:center; gap:10px; color:#6b4a00; font-weight:700 }
     .sig .avatar{ inline-size:36px; block-size:36px; border-radius:50%; background:linear-gradient(135deg,#ffe1ef,#ffd8a8) }
 
-    /* 🌟 Floating particles layer: PHỦ TOÀN MÀN HÌNH */
+    /* 🌟 LỚP HIỆU ỨNG: FIXED + Z-INDEX CAO -> phủ full màn hình kể cả iOS */
     .float{
-      position:fixed; inset:0; pointer-events:none; overflow:hidden; z-index:10; /* cao hơn card/paper */
+      position:fixed; inset:0; pointer-events:none; overflow:hidden;
+      z-index:9999; /* cao hơn mọi thứ */
     }
     .particle{
       position:absolute; font-size:18px; user-select:none; will-change:transform,opacity;
       animation:fall var(--dur) linear forwards, sway var(--sway) ease-in-out infinite;
+      -webkit-transform:translateZ(0); /* hint cho iOS */
     }
-
     @keyframes fall{
       from{ transform:translate3d(var(--x), -10%, 0) rotate(0deg); opacity:0 }
       10%{ opacity:.95 }
@@ -94,12 +94,12 @@
     @keyframes sway{ 0%{translate:0 0} 50%{translate:8px 0} 100%{translate:0 0} }
 
     .back{
-      position:fixed; right:16px; bottom:calc(16px + env(safe-area-inset-bottom)); z-index:11;
+      position:fixed; right:16px; bottom:calc(16px + env(safe-area-inset-bottom)); z-index:10000;
       opacity:0; pointer-events:none; transition:opacity .3s ease;
     }
     .app.open .back{ opacity:1; pointer-events:auto }
 
-    /* Accessibility – giữ hiệu ứng nhẹ khi Reduce Motion bật */
+    /* Reduce Motion vẫn có hiệu ứng nhẹ */
     @media (prefers-reduced-motion: reduce){
       .particle{
         animation:pop var(--dur) ease-out forwards, sway var(--sway) ease-in-out infinite;
@@ -107,23 +107,16 @@
       .card,.btn{ transition:none }
     }
     @keyframes pop{
-      from{
-        transform:translate3d(var(--x), 0, 0) scale(.96) rotate(0deg);
-        opacity:.95;
-      }
-      to{
-        transform:translate3d(var(--x2), 20vh, 0) scale(1) rotate(var(--rot));
-        opacity:0;
-      }
+      from{ transform:translate3d(var(--x), 0, 0) scale(.96) rotate(0deg); opacity:.95 }
+      to{   transform:translate3d(var(--x2), 20vh, 0) scale(1) rotate(var(--rot)); opacity:0 }
     }
 
-    /* chuyển cảnh cover */
     .app.open .cover{ opacity:0; pointer-events:none; transform:scale(1.05) }
   </style>
 </head>
 <body>
   <main class="app" id="app">
-    <!-- LAYER THẢ EMOJI TOÀN MÀN HÌNH -->
+    <!-- LAYER HIỆU ỨNG TOÀN MÀN HÌNH -->
     <div class="float" id="float" aria-hidden="true"></div>
 
     <!-- COVER -->
@@ -139,16 +132,16 @@
     <!-- CARD -->
     <section class="card" id="card" aria-live="polite">
       <article class="paper" role="document">
-        <div class="ribbon">🌼 Happy Women's Day 20/10 <small>– với cả tấm lòng</small> 🌼</div>
+        <div class="ribbon">🌼 Happy Women's Day 20/10 🌼</div>
         <div class="paper-body">
           <p class="message">
-            Nè cô gái xinh đẹp, chúc cô 20/10 vui vẻ, hạnh phúc nhaa!<br>
-            Lúc nào cũng rạng rỡ, tự tin và hạnh phúc. <br>
+            Nè cô gái xinh đẹp, 20/10 vui vẻ, hạnh phúc nhaa!<br>
+            Lúc nào cũng rạng rỡ, tự tin và hạnh phúc.<br>
             Mong những điều tuyệt nhất luôn đến với cô gái bé nhỏ.
           </p>
           <div class="sig"><span class="avatar"></span> From: ... to: 🐹</div>
           <div class="row">
-            <button class="btn secondary" id="replay">Blink Blink💖</button>
+            <button class="btn secondary" id="replay">Blink Blink❤️</button>
             <button class="btn" id="copyMsg">Copy lời chúc</button>
           </div>
         </div>
@@ -159,47 +152,54 @@
   </main>
 
   <script>
-    const app       = document.getElementById('app');
-    const openBtn   = document.getElementById('openBtn');
-    const backBtn   = document.getElementById('backBtn');
-    const floatLayer= document.getElementById('float');
-    const replayBtn = document.getElementById('replay');
-    const copyBtn   = document.getElementById('copyMsg');
+    const $ = (s)=>document.querySelector(s);
+    const app        = $('#app');
+    const openBtn    = $('#openBtn');
+    const backBtn    = $('#backBtn');
+    const floatLayer = $('#float');
+    const copyBtn    = $('#copyMsg');
 
-    const MESSAGE = `Nè cô gái xinh đẹp, chúc 20/10 vui vẻ, hạnh phúc nhaa 🌸 Lúc nào cũng rạng rỡ, tự tin và hạnh phúc. Mong những điều tuyệt nhất luôn đến với cô gái bé nhỏ.`;
+    // chốt luôn 2 id cho nút "thả lại": replay hoặc blinkBtn
+    const replayBtn  = document.getElementById('replay') || document.getElementById('blinkBtn');
+
+    const MESSAGE = `Nè cô gái xinh đẹp, 20/10 vui vẻ, hạnh phúc nhaa! Lúc nào cũng rạng rỡ, tự tin và hạnh phúc. Mong những điều tuyệt nhất luôn đến với cô gái bé nhỏ.`;
     const EMOJIS  = ['💖','🌸','💐','🐹','🌷','✨'];
+
+    // Nếu máy bật Reduce Motion → vẫn chạy nhẹ
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    function rand(min, max){ return Math.random() * (max - min) + min }
+    const rand = (min,max)=> Math.random()*(max-min)+min;
 
     function openCard(){ app.classList.add('open'); burstParticles(); }
     function closeCard(){ app.classList.remove('open'); }
 
-    openBtn.addEventListener('click', openCard);
-    backBtn.addEventListener('click', closeCard);
-    replayBtn.addEventListener('click', burstParticles);
+    // click + touch (mobile)
+    openBtn.addEventListener('click', openCard, {passive:true});
+    openBtn.addEventListener('touchstart', openCard, {passive:true});
+    backBtn.addEventListener('click', closeCard, {passive:true});
+    backBtn.addEventListener('touchstart', closeCard, {passive:true});
+    replayBtn?.addEventListener('click', burstParticles, {passive:true});
+    replayBtn?.addEventListener('touchstart', burstParticles, {passive:true});
 
     copyBtn.addEventListener('click', async () => {
       try{
         await navigator.clipboard.writeText(MESSAGE);
         copyBtn.textContent = 'Đã copy ✅';
         setTimeout(()=> copyBtn.textContent = 'Copy lời chúc', 1600);
-      }catch(e){
-        alert('Copy không thành công, bạn bôi đen và copy thủ công nhé!');
-      }
+      }catch{ alert('Copy không thành công, bạn bôi đen và copy thủ công nhé!'); }
     });
 
-    openBtn.addEventListener('keyup', (e)=>{ if(e.key==='Enter' || e.key===' '){ openCard(); } });
+    openBtn.addEventListener('keyup', (e)=>{ if(e.key==='Enter'||e.key===' '){ openCard(); } });
     window.addEventListener('load', ()=> openBtn?.focus?.({preventScroll:true}));
 
     function makeParticle(){
       const el = document.createElement('span');
       el.className = 'particle';
-      el.textContent = EMOJIS[Math.floor(Math.random()*EMOJIS.length)];
+      el.textContent = EMOJIS[(Math.random()*EMOJIS.length)|0];
 
       const x = rand(0,100);
       const drift = rand(-15,15);
-      const size = rand(16,28);
+      const size = rand(18,30);
 
       el.style.left = x + 'vw';
       el.style.top  = prefersReduced ? (rand(0,20)+'%') : '-10%';
@@ -207,7 +207,7 @@
       el.style.setProperty('--x',  `${x}vw`);
       el.style.setProperty('--x2', `${x + drift}vw`);
       el.style.setProperty('--rot',`${rand(-120,120)}deg`);
-      el.style.setProperty('--dur', prefersReduced ? `${rand(2.2,3)}s` : `${rand(4,7)}s`);
+      el.style.setProperty('--dur', prefersReduced ? `${rand(2.2,3)}s` : `${rand(4.5,7.5)}s`);
       el.style.setProperty('--sway',prefersReduced ? `${rand(1.5,2.2)}s` : `${rand(2,4)}s`);
 
       floatLayer.appendChild(el);
@@ -215,12 +215,14 @@
     }
 
     function burstParticles(){
-      for(let i=0;i<36;i++) setTimeout(makeParticle, i*30);
+      // nổ nhanh
+      for(let i=0;i<36;i++) setTimeout(makeParticle, i*28);
+      // mưa nhẹ
       let t=0;
       const rain = setInterval(()=>{
         makeParticle();
-        if(++t>40) clearInterval(rain);
-      },120);
+        if(++t>42) clearInterval(rain);
+      },110);
     }
   </script>
 </body>
