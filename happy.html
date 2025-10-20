@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#ff6aa2" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>Thiệp 20/10 ✨</title>
+  <style>
+    :root {
+      --bg: #fff7fb;
+      --pink: #ff6aa2;
+      --pink-2: #ff93bd;
+      --vio: #8a63ff;
+      --text: #3b2b3b;
+      --gold: #ffd166;
+      --cover-gif: url('https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZTR6ZTc1dDk0cWl5aTFyNnUybXIybzRydW1rN2RpbjJqYzQwazNnNiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o6Zt8MgUuvSbkZYWc/giphy.gif');
+      /* đổi link GIF ở đây */
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      -webkit-tap-highlight-color: transparent;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      color: var(--text);
+      background: var(--bg)
+    }
+
+    .app {
+      min-height: 100%;
+      display: grid;
+      place-items: center
+    }
+
+    /* COVER */
+    .cover {
+      position: relative;
+      inline-size: 100%;
+      block-size: 100vh;
+      display: grid;
+      place-items: center;
+      overflow: hidden
+    }
+
+    @supports(height: 100dvh) {
+      .cover {
+        block-size: 100dvh;
+      }
+    }
+
+    .cover::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: var(--cover-gif) center/cover no-repeat;
+      filter: saturate(1.05) contrast(1.05)
+    }
+
+    .cover::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(80% 60% at 50% 20%, rgba(255, 255, 255, .6), transparent 60%), linear-gradient(180deg, rgba(0, 0, 0, .0), rgba(0, 0, 0, .45));
+    }
+
+    .cover-inner {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+      padding: 20px;
+      text-align: center
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .7);
+      backdrop-filter: blur(6px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, .15);
+      font-weight: 700
+    }
+
+    .badge .dot {
+      inline-size: 10px;
+      block-size: 10px;
+      border-radius: 50%;
+      background: var(--pink)
+    }
+
+    .title {
+      font-size: clamp(26px, 5.2vw, 42px);
+      line-height: 1.1;
+      margin: 0;
+      color: white;
+      text-shadow: 0 3px 16px rgba(0, 0, 0, .35)
+    }
+
+    .subtitle {
+      margin: 0;
+      color: #ffeef6;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, .35)
+    }
+
+    .btn {
+      --p: var(--pink);
+      --p2: var(--pink-2);
+      appearance: none;
+      border: 0;
+      cursor: pointer;
+      padding: 16px 22px;
+      border-radius: 16px;
+      font-weight: 800;
+      letter-spacing: .3px;
+      background: linear-gradient(135deg, var(--p), var(--p2));
+      color: white;
+      box-shadow: 0 10px 24px rgba(255, 106, 162, .35), inset 0 -2px 0 rgba(0, 0, 0, .08);
+      transition: transform .15s ease, box-shadow .2s ease, filter .2s ease
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 30px rgba(255, 106, 162, .45)
+    }
+
+    .btn:active {
+      transform: translateY(0)
+    }
+
+    /* CARD */
+    .card {
+      position: fixed;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      padding: 16px;
+      background: linear-gradient(180deg, #fff7fb, #fff), radial-gradient(1200px 600px at 50% -10%, #ffe4f1 0%, transparent 60%);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(8px) scale(.99);
+      transition: opacity .45s ease, transform .45s ease
+    }
+
+    .app.open .card {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0) scale(1)
+    }
+
+    .paper {
+      position: relative;
+      max-inline-size: 720px;
+      width: 100%;
+      background: white;
+      border-radius: 24px;
+      box-shadow: 0 30px 60px rgba(255, 106, 162, .18), 0 16px 40px rgba(138, 99, 255, .12);
+      overflow: hidden
+    }
+
+    /* ribbon */
+    .ribbon {
+      position: absolute;
+      inset: 0 0 auto 0;
+      block-size: 62px;
+      background: linear-gradient(90deg, var(--gold), #ffd98a 60%, var(--gold));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: #6b4a00;
+      font-weight: 800;
+      letter-spacing: .4px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, .06)
+    }
+
+    .ribbon small {
+      opacity: .8;
+      font-weight: 700
+    }
+
+    .paper-body {
+      padding: 88px 22px calc(22px + env(safe-area-inset-bottom));
+      display: grid;
+      gap: 14px
+    }
+
+    .headline {
+      font-size: clamp(22px, 5.4vw, 30px);
+      margin: 0 0 6px;
+      color: #2a1b2a
+    }
+
+    .message {
+      font-size: clamp(16px, 4.2vw, 18px);
+      line-height: 1.65;
+      margin: 0;
+      color: #553a55
+    }
+
+    .sig {
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #6b4a00;
+      font-weight: 700
+    }
+
+    .sig .avatar {
+      inline-size: 36px;
+      block-size: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ffe1ef, #ffd8a8)
+    }
+
+    .row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 12px
+    }
+
+    .row .btn.secondary {
+      --p: #7b68ee;
+      --p2: #a48fff
+    }
+
+    /* Falling particles */
+    .float {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden
+    }
+
+    .particle {
+      position: absolute;
+      font-size: 18px;
+      user-select: none;
+      will-change: transform, opacity;
+      animation: fall var(--dur) linear forwards, sway var(--sway) ease-in-out infinite
+    }
+
+    @keyframes fall {
+      from {
+        transform: translate3d(var(--x), -10%, 0) rotate(0deg);
+        opacity: 0
+      }
+
+      10% {
+        opacity: .95
+      }
+
+      to {
+        transform: translate3d(var(--x2), 110%, 0) rotate(var(--rot));
+        opacity: 0
+      }
+    }
+
+    @keyframes sway {
+      0% {
+        translate: 0 0
+      }
+
+      50% {
+        translate: 8px 0
+      }
+
+      100% {
+        translate: 0 0
+      }
+    }
+
+    /* Back button */
+    .back {
+      position: fixed;
+      right: 16px;
+      bottom: calc(16px + env(safe-area-inset-bottom));
+      z-index: 5;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .3s ease
+    }
+
+    .app.open .back {
+      opacity: 1;
+      pointer-events: auto
+    }
+
+    /* Accessibility */
+    @media (prefers-reduced-motion:reduce) {
+      .particle {
+        animation: none
+      }
+
+      .card {
+        transition: none
+      }
+
+      .btn {
+        transition: none
+      }
+    }
+
+    .app.open .cover {
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(1.05);
+      transition: opacity .45s ease, transform .45s ease;
+    }
+
+    .cover {
+      transition: opacity .45s ease, transform .45s ease;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="app" id="app">
+    <!-- COVER with GIF + CTA -->
+    <section class="cover" aria-label="Trang bìa thiệp">
+      <div class="cover-inner">
+        <span class="badge"><span class="dot"></span> 20/10 vibes ✨</span>
+        <h1 class="title">Gửi cô gái dễ thương – Happy Vietnamese Women's Day</h1>
+        <p class="subtitle">Chạm nút bên dưới để mở thiệp nha 💖</p>
+        <button class="btn" id="openBtn" aria-controls="card">Mở thiệp</button>
+      </div>
+    </section>
+
+    <!-- CARD content -->
+    <section class="card" id="card" aria-live="polite">
+      <article class="paper" role="document">
+        <div class="ribbon">🌼 Chúc mừng 20/10 <small>— you deserve all the flowers —</small>🌼</div>
+        <div class="paper-body">
+          <h2 class="headline">Chúc cô gái 20/10 💐</h2>
+          <p class="message">
+            Nè cô gái xinh đẹp, chúc 20/10 vui vẻ, hạnh phúc nhaa 🌸 <br>
+            Lúc nào cũng rạng rỡ, tự tin và hạnh phúc. <br>
+            Mong những điều tuyệt nhất luôn đến với cô gái bé nhỏ.
+          </p>
+          <div class="sig"><span class="avatar"></span> From: Người gửi bí ẩn 😉</div>
+          <div class="row">
+            <button class="btn secondary" id="replay">Thả tim/hoa lại 💗</button>
+            <button class="btn" id="copyMsg">Copy lời chúc</button>
+          </div>
+        </div>
+      </article>
+      <div class="float" id="float" aria-hidden="true"></div>
+    </section>
+
+    <button class="btn back" id="backBtn" aria-label="Quay lại bìa">⬅️</button>
+  </main>
+
+  <script>
+    const app = document.getElementById('app');
+    const openBtn = document.getElementById('openBtn');
+    const backBtn = document.getElementById('backBtn');
+    const floatLayer = document.getElementById('float');
+    const replayBtn = document.getElementById('replay');
+    const copyBtn = document.getElementById('copyMsg');
+
+    const MESSAGE = `Nè cô gái xinh đẹp, chúc 20/10 vui vẻ, hạnh phúc nhaa 🌸 Lúc nào cũng rạng rỡ, tự tin và hạnh phúc. Mong những điều tuyệt nhất luôn đến với cô gái bé nhỏ.`;
+
+    function openCard() {
+      app.classList.add('open');
+      burstParticles();
+    }
+    function closeCard() {
+      app.classList.remove('open');
+    }
+
+    openBtn.addEventListener('click', openCard);
+    backBtn.addEventListener('click', closeCard);
+    replayBtn.addEventListener('click', burstParticles);
+    copyBtn.addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText(MESSAGE); copyBtn.textContent = 'Đã copy ✅'; setTimeout(() => copyBtn.textContent = 'Copy lời chúc', 1600); } catch (e) { alert('Copy không thành công, bạn bôi đen và copy thủ công nhé!'); }
+    });
+
+    // Hearts/flowers rain
+    const EMOJIS = ['💖', '🌸', '💐', '🩷', '🌷', '✨'];
+    function rand(min, max) { return Math.random() * (max - min) + min }
+
+    function makeParticle() {
+      const el = document.createElement('span');
+      el.className = 'particle';
+      el.textContent = EMOJIS[Math.floor(Math.random() * EMOJIS.length)];
+      const x = rand(0, 100); // vw
+      const drift = rand(-15, 15);
+      const size = rand(16, 28);
+      el.style.left = x + 'vw';
+      el.style.top = '-10%';
+      el.style.fontSize = size + 'px';
+      el.style.setProperty('--x', `${x}vw`);
+      el.style.setProperty('--x2', `${x + drift}vw`);
+      el.style.setProperty('--rot', `${rand(-120, 120)}deg`);
+      el.style.setProperty('--dur', `${rand(4, 7)}s`);
+      el.style.setProperty('--sway', `${rand(2, 4)}s`);
+      floatLayer.appendChild(el);
+      setTimeout(() => el.remove(), 7000);
+    }
+
+    function burstParticles() {
+      // quick burst + gentle rain
+      for (let i = 0; i < 36; i++) setTimeout(makeParticle, i * 30);
+      let t = 0;
+      const rain = setInterval(() => {
+        makeParticle();
+        if (++t > 40) clearInterval(rain);
+      }, 120);
+    }
+
+    // Allow Enter/Space to open
+    openBtn.addEventListener('keyup', (e) => { if (e.key === 'Enter' || e.key === ' ') { openCard(); } });
+
+    // Optional: auto-focus open button for quick tap
+    window.addEventListener('load', () => openBtn.focus({ preventScroll: true }));
+  </script>
+</body>
+
+</html>
